@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:eco_pop/page_inicial.dart';
 
 void main() {
   runApp(
     MaterialApp(
-      home: MenuInicial(),
+      home: Splash(),
     ),
   );
 }
