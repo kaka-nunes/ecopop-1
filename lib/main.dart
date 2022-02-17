@@ -1,14 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+//<<<<<<< HEAD
 import 'package:eco_pop/page_inicial.dart';
+//=======
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import 'package:eco_pop/screens/grupo-pesquisa/lista.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      home: Splash(),
-    ),
-  );
+  runApp(MaterialApp(
+    home: const Splash(),
+
+    //home: MenuInicial(),
+    //home: ListarGruposPesquisa(),
+  ));
 }
 
 class MeusDados extends StatelessWidget {
@@ -129,3 +136,37 @@ class Usuario {
 }
 
 class Instituicao {}
+
+class Connection {
+  static Database? _db;
+
+  static Future<Database?> get() async {
+    if (_db == null) {
+      var path = join(await getDatabasesPath(), 'ecopop');
+      //deleteDatabase(path);
+      _db = await openDatabase(
+        path,
+        version: 1,
+        onCreate: (db, v) {
+          db.execute(createTable);
+          db.execute(insert1);
+          //db.execute(insert2);
+          //db.execute(insert3);
+        },
+      );
+    }
+    return _db;
+  }
+}
+
+final createTable = '''
+  CREATE TABLE grupo(
+    id INTEGER NOT NULL PRIMARY KEY
+    ,grupo VARCHAR(200) NOT NULL
+  )
+''';
+
+final insert1 = '''
+  INSERT INTO grupo (grupo)
+  VALUES ('anatormia dos vegetais')
+''';
