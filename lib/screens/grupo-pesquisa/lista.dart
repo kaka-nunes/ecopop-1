@@ -1,5 +1,6 @@
 import 'package:eco_pop/main.dart';
 import 'package:eco_pop/screens/grupo-pesquisa/grupo_dao.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:path/path.dart';
@@ -23,6 +24,7 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text('Grupo de pesquisa'),
       ),
       body: FutureBuilder<List<GrupoPesquisa>>(
@@ -53,7 +55,49 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final GrupoPesquisa grupo = grupos[index];
-                  return ItensGruposPesquisa(grupo);
+                  //return ItensGruposPesquisa(grupo);
+                  return MaterialButton(
+                    onPressed: () {},
+                    child: Card(
+                      child: ListTile(
+                        title: Text(grupo.nomegrupo),
+                        //subtitle: Text(_grupo_pesquisa.id.toString()),
+                        trailing: Container(
+                          width: 100,
+                          child: Row(
+                            children: <Widget>[
+                              IconButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                FormularioGrupoPesquisa(),
+                                            settings:
+                                                RouteSettings(arguments: grupo),
+                                          ),
+                                        )
+                                        .then(
+                                          (value) => setState(() {}),
+                                        );
+                                  },
+                                  icon: Icon(Icons.edit),
+                                  color: Colors.orange[300]),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _gruposDao.delete(grupo.id);
+                                  });
+                                },
+                                icon: Icon(Icons.delete),
+                                color: Colors.red[900],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 itemCount: grupos.length,
               );
@@ -107,12 +151,25 @@ class FormularioGrupoPesquisa extends StatefulWidget {
 }
 
 class FormularioGrupoPesquisaState extends State<FormularioGrupoPesquisa> {
+  final GrupoPesquisaDao _grupoDao = GrupoPesquisaDao();
   final TextEditingController _controladorCampoNome = TextEditingController();
 
-  final GrupoPesquisaDao _grupoDao = GrupoPesquisaDao();
+  void _loadFormData(GrupoPesquisa? grupo) {
+    if (grupo != null) {
+      final String _nomegrupo = grupo.nomegrupo;
+      final TextEditingController _controladorCampoNome =
+          TextEditingController(text: _nomegrupo);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    //final GrupoPesquisa = ModalRoute.of(context).settings.arguments;
+    final GrupoPesquisa? grupoUpdate =
+        ModalRoute.of(context)?.settings.arguments as GrupoPesquisa?;
+
+    _loadFormData(grupoUpdate);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Criando Grupo de Pesquisa'),
@@ -122,7 +179,7 @@ class FormularioGrupoPesquisaState extends State<FormularioGrupoPesquisa> {
           padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 20.0),
           child: Column(
             children: [
-              TextField(
+              TextFormField(
                 controller: _controladorCampoNome,
                 style: TextStyle(
                   fontSize: 20.0,
@@ -137,6 +194,7 @@ class FormularioGrupoPesquisaState extends State<FormularioGrupoPesquisa> {
                 child: ElevatedButton(
                   onPressed: () {
                     //_criaGrupoPesquisa(context);
+
                     final String nomegrupo = _controladorCampoNome.text;
 
                     final GrupoPesquisa newGrupoPesquisa =
@@ -155,91 +213,4 @@ class FormularioGrupoPesquisaState extends State<FormularioGrupoPesquisa> {
       ),
     );
   }
-
-  /*void _criaGrupoPesquisa(BuildContext context) {
-    //receber o valor do formulario
-    final String descricao = _controladorCampoDescricao.text;
-    if (descricao != '') {
-      final descricaoGrupo = GrupoPesquisa(nomegrupo);
-      Navigator.pop(context, descricaoGrupo); //retornar para a tela anterior
-    }
-  }*/
 }
-
-class ItensGruposPesquisa extends StatelessWidget {
-  final GrupoPesquisa _grupo_pesquisa;
-
-  const ItensGruposPesquisa(this._grupo_pesquisa);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        /*final Future future =
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return Detalhe();
-              }));
-              future.then((grupo) {
-                //teste
-              }); */
-      },
-      child: Card(
-        child: ListTile(
-          title: Text(_grupo_pesquisa.nomegrupo),
-          subtitle: Text(_grupo_pesquisa.id.toString()),
-          trailing: Container(
-            width: 100,
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.edit),
-                    color: Colors.orange[300]),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.delete),
-                  color: Colors.red[900],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/*
-class Connection {
-  static Database? _db;
-
-  static Future<Database?> get() async {
-    if (_db == null) {
-      var path = join(await getDatabasesPath(), 'ecopop');
-      //deleteDatabase(path);
-      _db = await openDatabase(
-        path,
-        version: 1,
-        onCreate: (db, v) {
-          db.execute(createTable);
-          db.execute(insert1);
-          //db.execute(insert2);
-          //db.execute(insert3);
-        },
-      );
-    }
-    return _db;
-  }
-}
-
-final createTable = '''
-  CREATE TABLE grupo(
-    id INTEGER NOT NULL PRIMARY KEY
-    ,grupo VARCHAR(200) NOT NULL
-  )
-''';
-
-final insert1 = '''
-  INSERT INTO grupo (grupo)
-  VALUES ('anatormia dos vegetais')
-''';*/

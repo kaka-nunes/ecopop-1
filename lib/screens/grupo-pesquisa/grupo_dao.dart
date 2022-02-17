@@ -58,6 +58,7 @@ class GrupoPesquisaDao {
     return grupos;
   }
 
+  //delete
   Future<int> delete(int id) async {
     final db = await getDatabase();
 
@@ -65,6 +66,14 @@ class GrupoPesquisaDao {
         where: "$_id = ?",
         whereArgs: [id]);
 
+    return resultado;
+  }
+
+  //atualizar
+  Future<int> update(GrupoPesquisa grupo) async {
+    final db = await getDatabase();
+    final resultado = await db.update(_tabela, _toMap(grupo),
+        where: '$_id = ?', whereArgs: [grupo.id]);
     return resultado;
   }
 }
