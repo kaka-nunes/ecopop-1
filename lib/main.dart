@@ -1,18 +1,24 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+//<<<<<<< HEAD
+import 'package:eco_pop/page_inicial.dart';
+//=======
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'screens/grupo-pesquisa/lista.dart';
+//import 'screens/grupo-pesquisa/lista.dart';
 
 void main() {
   runApp(
+    
     MaterialApp(
+
+      home: const Splash(),
+
       //home: MenuInicial(),
-      home: ListarGruposPesquisa(),
-    ),
-  );
+    // home: ListarGruposPesquisa()
+  ));
 }
 
 class MeusDados extends StatelessWidget {
