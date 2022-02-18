@@ -1,27 +1,20 @@
-import 'package:eco_pop/main.dart';
-import 'package:eco_pop/screens/grupo-pesquisa/grupo_dao.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:eco_pop/view/grupo-pesquisa/cadastro_grupo.dart';
+import 'package:eco_pop/view/grupo-pesquisa/grupo.dart';
+import 'package:eco_pop/view/grupo-pesquisa/grupo_dao.dart';
 import 'package:flutter/material.dart';
-
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 class ListarGruposPesquisa extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return ListarGruposPesquisaState();
   }
 }
 
 class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
-  //final List _grupos = [];
   final GrupoPesquisaDao _gruposDao = GrupoPesquisaDao();
 
   @override
   Widget build(BuildContext context) {
-    //_grupos.add(GrupoPesquisa('Informática'));
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -107,25 +100,12 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        /*onPressed: () {
-          //criar uma navegação para o formulário de cadastro
-          final Future future =
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return FormularioGrupoPesquisa(); //FormularioTransferencia();
-          }));
-          future.then((descricaoRecebida) {
-            setState(() {
-              if (descricaoRecebida != null && descricaoRecebida != '') {
-                _grupos.add(descricaoRecebida);
-              }
-            });
-          });
-        },*/
         onPressed: () {
           Navigator.of(context)
               .push(
                 MaterialPageRoute(
                   builder: (context) => FormularioGrupoPesquisa(),
+                  settings: RouteSettings(arguments: null),
                 ),
               )
               .then(
@@ -133,83 +113,6 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
               );
         },
         child: Icon(Icons.add),
-      ),
-    );
-  }
-}
-
-class FormularioGrupoPesquisa extends StatefulWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    return FormularioGrupoPesquisaState();
-  }
-}
-
-class FormularioGrupoPesquisaState extends State<FormularioGrupoPesquisa> {
-  final GrupoPesquisaDao _grupoDao = GrupoPesquisaDao();
-  final TextEditingController _controladorCampoNome = TextEditingController();
-
-  void _loadFormData(GrupoPesquisa? grupo) {
-    if (grupo != null) {
-      final String _nomegrupo = grupo.nomegrupo;
-      final TextEditingController _controladorCampoNome =
-          TextEditingController(text: _nomegrupo);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    //final GrupoPesquisa = ModalRoute.of(context).settings.arguments;
-    final GrupoPesquisa? grupoUpdate =
-        ModalRoute.of(context)?.settings.arguments as GrupoPesquisa?;
-
-    _loadFormData(grupoUpdate);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Criando Grupo de Pesquisa'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8.0, 10.0, 8.0, 20.0),
-          child: Column(
-            children: [
-              TextFormField(
-                controller: _controladorCampoNome,
-                style: TextStyle(
-                  fontSize: 20.0,
-                ),
-                decoration: InputDecoration(
-                  labelText: 'Descrição do grupo',
-                  contentPadding: const EdgeInsets.all(8.0),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    //_criaGrupoPesquisa(context);
-
-                    final String nomegrupo = _controladorCampoNome.text;
-
-                    final GrupoPesquisa newGrupoPesquisa =
-                        GrupoPesquisa(0, nomegrupo);
-                    //Salvar
-                    _grupoDao
-                        .save(newGrupoPesquisa)
-                        .then((id) => Navigator.pop(context));
-                  },
-                  child: Text('Confirmar'),
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
