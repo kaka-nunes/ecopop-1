@@ -20,10 +20,11 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _handleSignIn() async {
     try {
-      var user = await _googleSignIn.signIn();
+      var user1 = await _googleSignIn.signIn();
     } catch (error) {
       print(error);
     }
+    ;
   }
 
   @override
@@ -43,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     alignment: Alignment.center,
-                    image: AssetImage('assets/ECOPop.jpg'),
+                    image: AssetImage('assets/ECOPoP.jpg'),
                   ), //AssetImage("assets/Serenity.png"),
                 ),
               ),
@@ -54,7 +55,6 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   //Navigator.of(context).pushReplacement(MaterialPageRoute(
                   //builder: (context) => MeusDados()));
-                  _handleSignIn();
                 },
                 label: Text(
                   "Login",

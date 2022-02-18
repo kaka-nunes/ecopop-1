@@ -44,7 +44,7 @@ class _SplashState extends State<Splash> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   alignment: Alignment.center,
-                  image: AssetImage('assets/ECOPop.jpg'),
+                  image: AssetImage('assets/ECOPoP.jpg'),
                 ), //AssetImage("assets/Serenity.png"),
               ),
             ),
