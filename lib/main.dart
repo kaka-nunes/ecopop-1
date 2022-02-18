@@ -7,14 +7,17 @@ import 'package:eco_pop/page_inicial.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:eco_pop/screens/grupo-pesquisa/lista.dart';
+//import 'screens/grupo-pesquisa/lista.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: const Splash(),
+  runApp(
+    
+    MaterialApp(
 
-    //home: MenuInicial(),
-    //home: ListarGruposPesquisa(),
+      home: const Splash(),
+
+      //home: MenuInicial(),
+    // home: ListarGruposPesquisa()
   ));
 }
 
