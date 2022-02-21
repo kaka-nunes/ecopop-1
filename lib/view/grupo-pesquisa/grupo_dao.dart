@@ -1,3 +1,4 @@
+import 'package:eco_pop/view/grupo-pesquisa/grupo.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -75,17 +76,5 @@ class GrupoPesquisaDao {
     final resultado = await db.update(_tabela, _toMap(grupo),
         where: '$_id = ?', whereArgs: [grupo.id]);
     return resultado;
-  }
-}
-
-class GrupoPesquisa {
-  final int id;
-  final String nomegrupo;
-
-  GrupoPesquisa(this.id, this.nomegrupo);
-
-  @override
-  String toString() {
-    return 'GrupoPesquisa{id: $id, grupo: $nomegrupo}';
   }
 }

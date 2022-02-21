@@ -1,18 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:eco_pop/page_inicial.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'screens/grupo-pesquisa/lista.dart';
+import 'view/grupo-pesquisa/lista_grupo.dart';
 
 void main() {
   runApp(
+    
     MaterialApp(
+      home: const Splash(),
+
       //home: MenuInicial(),
-      home: ListarGruposPesquisa(),
-    ),
-  );
+    // home: ListarGruposPesquisa()
+  ));
 }
 
 class MeusDados extends StatelessWidget {
@@ -103,6 +106,23 @@ class MenuInicial extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.restore_page_outlined),
                 title: Text("Projetos"),
+              ),
+            ),
+          ),
+          MaterialButton(
+            onPressed: () {
+              final Future future =
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ListarGruposPesquisa();
+              }));
+              future.then((usuario) {
+                //teste
+              });
+            },
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.supervised_user_circle),
+                title: Text("Grupo pesquisa"),
               ),
             ),
           ),
