@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:eco_pop/page_inicial.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -8,11 +9,13 @@ import 'view/grupo-pesquisa/lista_grupo.dart';
 
 void main() {
   runApp(
+    
     MaterialApp(
-      home: MenuInicial(),
-      //home: ListarGruposPesquisa(),
-    ),
-  );
+      home: const Splash(),
+
+      //home: MenuInicial(),
+    // home: ListarGruposPesquisa()
+  ));
 }
 
 class MeusDados extends StatelessWidget {
