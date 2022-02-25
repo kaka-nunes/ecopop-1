@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
     scopes: [
       'email',
       'https://www.googleapis.com/auth/contacts.readonly',
+      'https://www.googleapis.com/auth/gmail.send',
     ],
   );
 
