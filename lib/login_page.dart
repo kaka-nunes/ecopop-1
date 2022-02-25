@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       print(error);
     }
     ;
+    return;
   }
 
   @override
@@ -40,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                 alignment: Alignment.center,
                 width: 200.0,
                 height: 200.0,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     alignment: Alignment.center,
@@ -53,8 +54,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
               FloatingActionButton.extended(
                 onPressed: () {
-                  //Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  //builder: (context) => MeusDados()));
+                  _handleSignIn().whenComplete(() => Navigator.of(context)
+                      .pushReplacement(MaterialPageRoute(
+                          builder: (context) => MenuInicial())));
+                  //pushNamed("/MenuInicial"));
+                  //Navigator.of(context).pushReplacement(
+                  // MaterialPageRoute(builder: (context) => MenuInicial()));
                 },
                 label: Text(
                   "Login",

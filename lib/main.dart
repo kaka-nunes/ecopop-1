@@ -10,13 +10,10 @@ import 'package:sqflite/sqflite.dart';
 //import 'screens/grupo-pesquisa/lista.dart';
 
 void main() {
-  runApp(
-    
-    MaterialApp(
+  runApp(MaterialApp(
+    home: const Splash(),
 
-      home: const Splash(),
-
-      //home: MenuInicial(),
+    //home: MenuInicial(),
     // home: ListarGruposPesquisa()
   ));
 }
@@ -82,7 +79,7 @@ class MenuInicial extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ecoPop'),
+        title: Text('Eco Pop'),
       ),
       body: Column(
         children: [
