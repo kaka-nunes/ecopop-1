@@ -1,13 +1,12 @@
 import 'dart:async';
 
+import 'package:eco_pop/instituicao/lista_instituicao.dart';
 import 'package:flutter/material.dart';
-//<<<<<<< HEAD
 import 'package:eco_pop/page_inicial.dart';
-//=======
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-//import 'screens/grupo-pesquisa/lista.dart';
+import 'grupo-pesquisa/lista_grupo.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -109,6 +108,38 @@ class MenuInicial extends StatelessWidget {
               ),
             ),
           ),
+          MaterialButton(
+            onPressed: () {
+              final Future future =
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ListarGruposPesquisa();
+              }));
+              future.then((grupo) {
+                //teste
+              });
+            },
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.supervised_user_circle),
+                title: Text("Grupo pesquisa"),
+              ),
+            ),
+          ),
+          MaterialButton(
+            onPressed: () {
+              final Future future =
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ListarInstituicao();
+              }));
+              future.then((instituicao) {});
+            },
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.restore_page_outlined),
+                title: Text("Instituição"),
+              ),
+            ),
+          ),
           Expanded(
             child: ListTile(
               trailing: FlutterLogo(),
@@ -134,8 +165,6 @@ class Usuario {
     return 'Usuario{nome: $nome}';
   }
 }
-
-class Instituicao {}
 
 class Connection {
   static Database? _db;
