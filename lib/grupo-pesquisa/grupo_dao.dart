@@ -1,8 +1,9 @@
-import 'package:eco_pop/view/grupo-pesquisa/grupo.dart';
+import 'package:eco_pop/database/connection.dart';
+import 'package:eco_pop/grupo-pesquisa/grupo.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-Future<Database> getDatabase() async {
+/*Future<Database> getDatabase() async {
   final String path = join(await getDatabasesPath(), 'ecopop');
   return openDatabase(
     path,
@@ -13,9 +14,11 @@ Future<Database> getDatabase() async {
     //limpar o banco de dados - primeiro precisa alterar a versão
     //onDowngrade: onDatabaseDowngradeDelete,
   );
-}
+}*/
 
 class GrupoPesquisaDao {
+  Database? _db;
+
   static const String _tabela = 'grupopesquisa';
   static const String _id = 'id';
   static const String _nomegrupo = 'nomegrupo';
@@ -27,10 +30,11 @@ class GrupoPesquisaDao {
 
   //salvar
   Future<int> save(GrupoPesquisa grupo) async {
-    final Database db = await getDatabase();
+    //final Database db = await getDatabase();
+    _db = await Connection.getDatabase();
 
     Map<String, dynamic> grupoMap = _toMap(grupo);
-    return db.insert(_tabela, grupoMap);
+    return _db!.insert(_tabela, grupoMap);
   }
 
   Map<String, dynamic> _toMap(GrupoPesquisa grupo) {
@@ -41,8 +45,9 @@ class GrupoPesquisaDao {
 
   //gegar todos
   Future<List<GrupoPesquisa>> findAll() async {
-    final Database db = await getDatabase();
-    final List<Map<String, dynamic>> resultado = await db.query(_tabela);
+    //final Database db = await getDatabase();
+    _db = await Connection.getDatabase();
+    final List<Map<String, dynamic>> resultado = await _db!.query(_tabela);
     List<GrupoPesquisa> grupos = _toList(resultado);
     return grupos;
   }
@@ -61,9 +66,9 @@ class GrupoPesquisaDao {
 
   //delete
   Future<int> delete(int id) async {
-    final db = await getDatabase();
-
-    int resultado = await db.delete(_tabela, //nome da tabela
+    //final db = await getDatabase();
+    _db = await Connection.getDatabase();
+    int resultado = await _db!.delete(_tabela, //nome da tabela
         where: "$_id = ?",
         whereArgs: [id]);
 
@@ -72,8 +77,9 @@ class GrupoPesquisaDao {
 
   //atualizar
   Future<int> update(GrupoPesquisa grupo) async {
-    final db = await getDatabase();
-    final resultado = await db.update(_tabela, _toMap(grupo),
+    //final db = await getDatabase();
+    _db = await Connection.getDatabase();
+    final resultado = await _db!.update(_tabela, _toMap(grupo),
         where: '$_id = ?', whereArgs: [grupo.id]);
     return resultado;
   }

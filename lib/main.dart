@@ -1,19 +1,18 @@
 import 'dart:async';
 
+import 'package:eco_pop/instituicao/lista_instituicao.dart';
 import 'package:flutter/material.dart';
 import 'package:eco_pop/page_inicial.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'view/grupo-pesquisa/lista_grupo.dart';
+import 'grupo-pesquisa/lista_grupo.dart';
 
 void main() {
-  runApp(
-    
-    MaterialApp(
-      home: const Splash(),
+  runApp(MaterialApp(
+    home: const Splash(),
 
-      //home: MenuInicial(),
+    //home: MenuInicial(),
     // home: ListarGruposPesquisa()
   ));
 }
@@ -115,7 +114,7 @@ class MenuInicial extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return ListarGruposPesquisa();
               }));
-              future.then((usuario) {
+              future.then((grupo) {
                 //teste
               });
             },
@@ -123,6 +122,21 @@ class MenuInicial extends StatelessWidget {
               child: ListTile(
                 leading: Icon(Icons.supervised_user_circle),
                 title: Text("Grupo pesquisa"),
+              ),
+            ),
+          ),
+          MaterialButton(
+            onPressed: () {
+              final Future future =
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ListarInstituicao();
+              }));
+              future.then((instituicao) {});
+            },
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.restore_page_outlined),
+                title: Text("Instituição"),
               ),
             ),
           ),
@@ -151,8 +165,6 @@ class Usuario {
     return 'Usuario{nome: $nome}';
   }
 }
-
-class Instituicao {}
 
 class Connection {
   static Database? _db;

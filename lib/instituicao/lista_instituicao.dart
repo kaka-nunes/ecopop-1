@@ -1,30 +1,30 @@
-import 'package:eco_pop/view/grupo-pesquisa/cadastro_grupo.dart';
-import 'package:eco_pop/view/grupo-pesquisa/grupo.dart';
-import 'package:eco_pop/view/grupo-pesquisa/grupo_dao.dart';
+import 'package:eco_pop/instituicao/cadastro_instituicao.dart';
+import 'package:eco_pop/instituicao/instituicao.dart';
+import 'package:eco_pop/instituicao/instituicao_dao.dart';
 import 'package:flutter/material.dart';
 
-class ListarGruposPesquisa extends StatefulWidget {
+class ListarInstituicao extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return ListarGruposPesquisaState();
+    return ListarInstituicaoState();
   }
 }
 
-class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
-  final GrupoPesquisaDao _gruposDao = GrupoPesquisaDao();
+class ListarInstituicaoState extends State<ListarInstituicao> {
+  final InstituicaoDao _instituicaoDao = InstituicaoDao();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Grupo de pesquisa'),
+        title: Text('Instituição'),
       ),
-      body: FutureBuilder<List<GrupoPesquisa>>(
+      body: FutureBuilder<List<Instituicao>>(
         initialData: [],
         //future: Future.delayed(Duration(seconds: 5))
         //.then((value) => _gruposDao.findAll()),
-        future: _gruposDao.findAll(),
+        future: _instituicaoDao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
@@ -44,17 +44,17 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
             case ConnectionState.active:
               break;
             case ConnectionState.done:
-              final List<GrupoPesquisa> grupos = snapshot.data ?? [];
+              final List<Instituicao> instituicoes = snapshot.data ?? [];
               return ListView.builder(
                 itemBuilder: (context, index) {
-                  final GrupoPesquisa grupo = grupos[index];
+                  final Instituicao instituicao = instituicoes[index];
                   //return ItensGruposPesquisa(grupo);
                   return MaterialButton(
                     onPressed: () {},
                     child: Card(
                       child: ListTile(
-                        title: Text(grupo.nomegrupo),
-                        //subtitle: Text(_grupo_pesquisa.id.toString()),
+                        title: Text(instituicao.descricao),
+                        subtitle: Text(instituicao.sigla.toString()),
                         trailing: Container(
                           width: 100,
                           child: Row(
@@ -65,9 +65,9 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
                                         .push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                FormularioGrupoPesquisa(),
-                                            settings:
-                                                RouteSettings(arguments: grupo),
+                                                FormularioInstituicao(),
+                                            settings: RouteSettings(
+                                                arguments: instituicao),
                                           ),
                                         )
                                         .then(
@@ -79,7 +79,7 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
                               IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    _gruposDao.delete(grupo.id);
+                                    _instituicaoDao.delete(instituicao.id!);
                                   });
                                 },
                                 icon: Icon(Icons.delete),
@@ -92,7 +92,7 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
                     ),
                   );
                 },
-                itemCount: grupos.length,
+                itemCount: instituicoes.length,
               );
               break;
           }
@@ -104,7 +104,7 @@ class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
           Navigator.of(context)
               .push(
                 MaterialPageRoute(
-                  builder: (context) => FormularioGrupoPesquisa(),
+                  builder: (context) => FormularioInstituicao(),
                   settings: RouteSettings(arguments: null),
                 ),
               )
