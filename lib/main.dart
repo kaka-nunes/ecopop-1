@@ -1,13 +1,20 @@
 import 'dart:async';
 
+import 'package:eco_pop/instituicao/lista_instituicao.dart';
 import 'package:flutter/material.dart';
+import 'package:eco_pop/page_inicial.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import 'grupo-pesquisa/lista_grupo.dart';
 
 void main() {
-  runApp(
-    MaterialApp(
-      home: MenuInicial(),
-    ),
-  );
+  runApp(MaterialApp(
+    home: const Splash(),
+
+    //home: MenuInicial(),
+    // home: ListarGruposPesquisa()
+  ));
 }
 
 class MeusDados extends StatelessWidget {
@@ -71,7 +78,7 @@ class MenuInicial extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ecoPop'),
+        title: Text('Eco Pop'),
       ),
       body: Column(
         children: [
@@ -101,6 +108,38 @@ class MenuInicial extends StatelessWidget {
               ),
             ),
           ),
+          MaterialButton(
+            onPressed: () {
+              final Future future =
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ListarGruposPesquisa();
+              }));
+              future.then((grupo) {
+                //teste
+              });
+            },
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.supervised_user_circle),
+                title: Text("Grupo pesquisa"),
+              ),
+            ),
+          ),
+          MaterialButton(
+            onPressed: () {
+              final Future future =
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return ListarInstituicao();
+              }));
+              future.then((instituicao) {});
+            },
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.restore_page_outlined),
+                title: Text("Instituição"),
+              ),
+            ),
+          ),
           Expanded(
             child: ListTile(
               trailing: FlutterLogo(),
@@ -127,4 +166,36 @@ class Usuario {
   }
 }
 
-class Instituicao {}
+class Connection {
+  static Database? _db;
+
+  static Future<Database?> get() async {
+    if (_db == null) {
+      var path = join(await getDatabasesPath(), 'ecopop');
+      //deleteDatabase(path);
+      _db = await openDatabase(
+        path,
+        version: 1,
+        onCreate: (db, v) {
+          db.execute(createTable);
+          db.execute(insert1);
+          //db.execute(insert2);
+          //db.execute(insert3);
+        },
+      );
+    }
+    return _db;
+  }
+}
+
+final createTable = '''
+  CREATE TABLE grupo(
+    id INTEGER NOT NULL PRIMARY KEY
+    ,grupo VARCHAR(200) NOT NULL
+  )
+''';
+
+final insert1 = '''
+  INSERT INTO grupo (grupo)
+  VALUES ('anatormia dos vegetais')
+''';

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "516805772359",
+    "project_id": "ecop-25-a9815",
+    "storage_bucket": "ecop-25-a9815.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516805772359:android:70d40783056c2e0e5add62",
+        "android_client_info": {
+          "package_name": "br.edu.ifpi.eco_pop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516805772359-nbo9bp4t0jqjf4g7ec5kt3mu7cb7flvk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.edu.ifpi.eco_pop",
+            "certificate_hash": "4ba954112d2fa71bcdda0ba5f8a876809d274160"
+          }
+        },
+        {
+          "client_id": "516805772359-t1b7etqqcrss15raghmg5tel32brh2s1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZkvkkZQVqGN6dCPsqOK2jslQE08klOhY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516805772359-t1b7etqqcrss15raghmg5tel32brh2s1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
