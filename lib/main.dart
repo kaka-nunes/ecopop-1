@@ -11,8 +11,6 @@ import 'grupo-pesquisa/lista_grupo.dart';
 void main() {
   runApp(MaterialApp(
     home: const Splash(),
-
-    //home: MenuInicial(),
     // home: ListarGruposPesquisa()
   ));
 }
@@ -71,86 +69,6 @@ class MeusDados extends StatelessWidget {
   }
 }
 
-class MenuInicial extends StatelessWidget {
-  const MenuInicial({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ecoPop'),
-      ),
-      body: Column(
-        children: [
-          MaterialButton(
-            onPressed: () {
-              final Future future =
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return MeusDados();
-              }));
-              future.then((usuario) {
-                //teste
-              });
-            },
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.supervised_user_circle),
-                title: Text("Meus Dados"),
-              ),
-            ),
-          ),
-          MaterialButton(
-            onPressed: null,
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.restore_page_outlined),
-                title: Text("Projetos"),
-              ),
-            ),
-          ),
-          MaterialButton(
-            onPressed: () {
-              final Future future =
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ListarGruposPesquisa();
-              }));
-              future.then((grupo) {
-                //teste
-              });
-            },
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.supervised_user_circle),
-                title: Text("Grupo pesquisa"),
-              ),
-            ),
-          ),
-          MaterialButton(
-            onPressed: () {
-              final Future future =
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ListarInstituicao();
-              }));
-              future.then((instituicao) {});
-            },
-            child: Card(
-              child: ListTile(
-                leading: Icon(Icons.restore_page_outlined),
-                title: Text("Instituição"),
-              ),
-            ),
-          ),
-          Expanded(
-            child: ListTile(
-              trailing: FlutterLogo(),
-              title: Text('to fill the available space.'),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class Usuario {
   final String email;
