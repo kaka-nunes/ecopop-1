@@ -16,7 +16,7 @@ class _SplashState extends State<Splash> {
       Duration(seconds: 3),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => LoginPage(title: ""),
+          builder: (context) => LoginPage(),
         ),
       ),
     );
@@ -44,7 +44,7 @@ class _SplashState extends State<Splash> {
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   alignment: Alignment.center,
-                  image: AssetImage('assets/ECOPoP.jpg'),
+                  image: AssetImage('assets/ECOPoP.png'),
                 ), //AssetImage("assets/Serenity.png"),
               ),
             ),
