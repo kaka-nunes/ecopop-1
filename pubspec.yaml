@@ -41,6 +41,7 @@ dependencies:
   firebase_auth: ^3.3.7
   sqflite: ^2.0.2
   hasura_connect: ^3.0.4
+  http: ^0.13.4
 
 
 dev_dependencies:
