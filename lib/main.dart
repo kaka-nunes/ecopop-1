@@ -5,11 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:eco_pop/page_inicial.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'grupo-pesquisa/lista_grupo.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MaterialApp(
+    theme: ThemeData(
+      primarySwatch: Colors.green
+    ),
     home: const Splash(),
     // home: ListarGruposPesquisa()
   ));

@@ -41,35 +41,6 @@
           ]
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:113523880628:android:846b1004166dd278045de1",
-        "android_client_info": {
-          "package_name": "br.edu.ifpi.ecopop"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "113523880628-v96jpti1dv38tgmdt4a7rl862tisrigv.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCAWmF0W7TSP92ssfcfThRT6HDUKuuGeUc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "113523880628-v96jpti1dv38tgmdt4a7rl862tisrigv.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
     }
   ],
   "configuration_version": "1"

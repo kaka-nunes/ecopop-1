@@ -1,7 +1,11 @@
 import 'package:eco_pop/instituicao/cadastro_instituicao.dart';
 import 'package:eco_pop/instituicao/instituicao.dart';
 import 'package:eco_pop/instituicao/instituicao_dao.dart';
+import 'package:eco_pop/utils/network_status_service.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:provider/provider.dart';
 
 class ListarInstituicao extends StatefulWidget {
   @override
@@ -12,40 +16,19 @@ class ListarInstituicao extends StatefulWidget {
 
 class ListarInstituicaoState extends State<ListarInstituicao> {
   final InstituicaoDao _instituicaoDao = InstituicaoDao();
-
   @override
-  Widget build(BuildContext context) {
+  Scaffold build(BuildContext context)  {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text('Instituição'),
       ),
       body: FutureBuilder<List<Instituicao>>(
-        initialData: [],
-        //future: Future.delayed(Duration(seconds: 5))
-        //.then((value) => _gruposDao.findAll()),
-        future: _instituicaoDao.findAll(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-              break;
-            case ConnectionState.waiting:
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    Text('Carregando!')
-                  ],
-                ),
-              );
-              break;
-            case ConnectionState.active:
-              break;
-            case ConnectionState.done:
-              final List<Instituicao> instituicoes = snapshot.data ?? [];
-              return ListView.builder(
+          initialData: [],
+          future: _instituicaoDao.findAll(),
+          builder: (context, snapshot) {
+            final List<Instituicao> instituicoes = snapshot.data ?? [];
+        return ListView.builder(
                 itemBuilder: (context, index) {
                   final Instituicao instituicao = instituicoes[index];
                   //return ItensGruposPesquisa(grupo);
@@ -78,8 +61,8 @@ class ListarInstituicaoState extends State<ListarInstituicao> {
                                   color: Colors.orange[300]),
                               IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    _instituicaoDao.delete(instituicao.id!);
+                                  setState(()  {
+                                    _instituicaoDao.delete(instituicao);
                                   });
                                 },
                                 icon: Icon(Icons.delete),
@@ -92,13 +75,11 @@ class ListarInstituicaoState extends State<ListarInstituicao> {
                     ),
                   );
                 },
-                itemCount: instituicoes.length,
-              );
-              break;
+          itemCount: instituicoes.length,
+        );
           }
-          return Text('Unknown error');
-        },
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
@@ -114,6 +95,6 @@ class ListarInstituicaoState extends State<ListarInstituicao> {
         },
         child: Icon(Icons.add),
       ),
-    );
+      );
   }
 }
