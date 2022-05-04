@@ -74,21 +74,6 @@ class MeusDados extends StatelessWidget {
   }
 }
 
-
-class Usuario {
-  final String email;
-  final String nome;
-  final DateTime data_nascimento;
-  final String instituicao;
-
-  Usuario(this.email, this.nome, this.data_nascimento, this.instituicao);
-
-  @override
-  String toString() {
-    return 'Usuario{nome: $nome}';
-  }
-}
-
 class Connection {
   static Database? _db;
 
