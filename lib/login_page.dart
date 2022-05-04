@@ -1,6 +1,10 @@
 import 'package:eco_pop/grupo-pesquisa/lista_grupo.dart';
 import 'package:eco_pop/instituicao/lista_instituicao.dart';
 import 'package:eco_pop/main.dart';
+import 'package:eco_pop/pop/pop_view.dart';
+import 'package:eco_pop/user/usuario.dart';
+import 'package:eco_pop/user/usuario_dao.dart';
+import 'package:eco_pop/utils/network_status_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:convert' show json;
@@ -14,6 +18,9 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
   ],
 );
 
+bool _online = true;
+
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -24,7 +31,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   GoogleSignInAccount? _currentUser;
   String _contactText = '';
-
   @override
   void initState() {
     super.initState();
@@ -33,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
         _currentUser = account;
       });
       if (_currentUser != null) {
-        _handleGetContact(_currentUser!);
+        //_handleGetContact(_currentUser!);
       }
     });
     _googleSignIn.signInSilently();
@@ -87,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _handleSignIn() async {
+    _online = await hasNetwork();
     try {
       var user1 = await _googleSignIn.signIn();
     } catch (error) {
@@ -101,7 +108,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Login eCoPoP'),
-          backgroundColor: Colors.green,
         ),
         body: ConstrainedBox(
           constraints: const BoxConstraints.expand(),
@@ -122,19 +128,12 @@ class _LoginPageState extends State<LoginPage> {
               height: MediaQuery
                   .of(context)
                   .size
-                  .height * 0.3,
+                  .height * 0.16,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  ListTile(
-                    leading: GoogleUserCircleAvatar(
-                      identity: user,
-                    ),
-                    title: Text(user.displayName ?? ''),
-                    subtitle: Text(user.email),
-                  ),
                   Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -142,19 +141,19 @@ class _LoginPageState extends State<LoginPage> {
                             width: MediaQuery
                                 .of(context)
                                 .size
-                                .width * 0.5,
+                                .width * 0.7,
                             height: MediaQuery
                                 .of(context)
                                 .size
-                                .height * 0.03,
-                            child: const Text(
-                              'Login Aceito.', textAlign: TextAlign.center,)
-                        ),
-                        FloatingActionButton.extended(
-                          onPressed: () => _handleGetContact(user),
-                          label: const Text(""),
-                          backgroundColor: Colors.green,
-                          icon: Icon(Icons.update),
+                                .height * 0.13,
+                            child: ListTile(
+                              leading: GoogleUserCircleAvatar(
+                                identity: user,
+                              ),
+                              title: Text(user.displayName ?? ''),
+                              subtitle: Text(user.email),
+                            ),
+
                         ),
                         FloatingActionButton.extended(
                           onPressed: _handleSignOut,
@@ -165,8 +164,6 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                   ),
-                  Text(_contactText, textAlign: TextAlign.center,),
-
                 ],
               ),
             ),
@@ -204,7 +201,15 @@ class _LoginPageState extends State<LoginPage> {
                       .width * 0.9,
                   height: 60,
                   child: FloatingActionButton.extended(
-                    onPressed: null,
+                    onPressed:() {
+                      final Future future =
+                      Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return VerPop();
+                      }));
+                      future.then((grupo) {
+                      //teste
+                      });
+                      },
                     label: const Text("Projetos"),
                     backgroundColor: Colors.green,
                     icon: Icon(Icons.document_scanner),

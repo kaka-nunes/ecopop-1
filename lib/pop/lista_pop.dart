@@ -1,43 +1,60 @@
-import 'package:eco_pop/instituicao/cadastro_instituicao.dart';
-import 'package:eco_pop/instituicao/instituicao.dart';
-import 'package:eco_pop/instituicao/instituicao_dao.dart';
-import 'package:eco_pop/utils/network_status_service.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:eco_pop/grupo-pesquisa/cadastro_grupo.dart';
+import 'package:eco_pop/grupo-pesquisa/grupo.dart';
+import 'package:eco_pop/grupo-pesquisa/grupo_dao.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:provider/provider.dart';
 
-class ListarInstituicao extends StatefulWidget {
+class ListarGruposPesquisa extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return ListarInstituicaoState();
+    return ListarGruposPesquisaState();
   }
 }
 
-class ListarInstituicaoState extends State<ListarInstituicao> {
-  final InstituicaoDao _instituicaoDao = InstituicaoDao();
+class ListarGruposPesquisaState extends State<ListarGruposPesquisa> {
+  final GrupoPesquisaDao _gruposDao = GrupoPesquisaDao();
+
   @override
-  Scaffold build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Instituição'),
+        title: Text('Grupo de pesquisa'),
       ),
-      body: FutureBuilder<List<Instituicao>>(
-          initialData: [],
-          future: _instituicaoDao.findAll(),
-          builder: (context, snapshot) {
-            final List<Instituicao> instituicoes = snapshot.data ?? [];
-        return ListView.builder(
+      body: FutureBuilder<List<GrupoPesquisa>>(
+        initialData: [],
+        //future: Future.delayed(Duration(seconds: 5))
+        //.then((value) => _gruposDao.findAll()),
+        future: _gruposDao.findAll(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              break;
+            case ConnectionState.waiting:
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Text('Carregando!')
+                  ],
+                ),
+              );
+              break;
+            case ConnectionState.active:
+              break;
+            case ConnectionState.done:
+              final List<GrupoPesquisa> grupos = snapshot.data ?? [];
+              return ListView.builder(
                 itemBuilder: (context, index) {
-                  final Instituicao instituicao = instituicoes[index];
+                  final GrupoPesquisa grupo = grupos[index];
                   //return ItensGruposPesquisa(grupo);
                   return MaterialButton(
                     onPressed: () {},
                     child: Card(
                       child: ListTile(
-                        title: Text(instituicao.descricao),
-                        subtitle: Text(instituicao.sigla.toString()),
+                        title: Text(grupo.nomegrupo),
+                        //subtitle: Text(_grupo_pesquisa.id.toString()),
                         trailing: Container(
                           width: 100,
                           child: Row(
@@ -48,9 +65,9 @@ class ListarInstituicaoState extends State<ListarInstituicao> {
                                         .push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                FormularioInstituicao(),
-                                            settings: RouteSettings(
-                                                arguments: instituicao),
+                                                FormularioGrupoPesquisa(),
+                                            settings:
+                                                RouteSettings(arguments: grupo),
                                           ),
                                         )
                                         .then(
@@ -61,8 +78,8 @@ class ListarInstituicaoState extends State<ListarInstituicao> {
                                   color: Colors.orange[300]),
                               IconButton(
                                 onPressed: () {
-                                  setState(()  {
-                                    _instituicaoDao.delete(instituicao);
+                                  setState(() {
+                                    _gruposDao.delete(grupo.id);
                                   });
                                 },
                                 icon: Icon(Icons.delete),
@@ -75,17 +92,19 @@ class ListarInstituicaoState extends State<ListarInstituicao> {
                     ),
                   );
                 },
-          itemCount: instituicoes.length,
-        );
+                itemCount: grupos.length,
+              );
+              break;
           }
+          return Text('Unknown error');
+        },
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context)
               .push(
                 MaterialPageRoute(
-                  builder: (context) => FormularioInstituicao(),
+                  builder: (context) => FormularioGrupoPesquisa(),
                   settings: RouteSettings(arguments: null),
                 ),
               )
@@ -95,6 +114,6 @@ class ListarInstituicaoState extends State<ListarInstituicao> {
         },
         child: Icon(Icons.add),
       ),
-      );
+    );
   }
 }

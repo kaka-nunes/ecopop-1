@@ -5,11 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:eco_pop/page_inicial.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'grupo-pesquisa/lista_grupo.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MaterialApp(
+    theme: ThemeData(
+      primarySwatch: Colors.green
+    ),
     home: const Splash(),
     // home: ListarGruposPesquisa()
   ));
@@ -66,21 +71,6 @@ class MeusDados extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-
-class Usuario {
-  final String email;
-  final String nome;
-  final DateTime data_nascimento;
-  final String instituicao;
-
-  Usuario(this.email, this.nome, this.data_nascimento, this.instituicao);
-
-  @override
-  String toString() {
-    return 'Usuario{nome: $nome}';
   }
 }
 
