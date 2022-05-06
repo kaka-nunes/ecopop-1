@@ -47,8 +47,6 @@ dependencies:
   provider: ^6.0.2
   simple_line_chart: ^1.2.2
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
