@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "113523880628-1mcm72vbtustcm1euf7g8798ng0d15jk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.edu.ifpi.eco_pop",
+            "certificate_hash": "9bf798bcd644b55a2e5af91e0712e66ccc298091"
+          }
+        },
+        {
           "client_id": "113523880628-1uotbep8d62l3vpi2c4dknod552mors7.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
