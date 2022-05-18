@@ -1,5 +1,6 @@
 import 'package:eco_pop/grupo-pesquisa/grupo_dao.dart';
 import 'package:eco_pop/instituicao/instituicao_dao.dart';
+import 'package:eco_pop/user/usuario_dao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -12,11 +13,12 @@ class Connection {
       //deleteDatabase(path);
       _db = await openDatabase(
         path,
-        version: 1,
+        version: 2,
         onCreate: (db, version) {
           return {
             db.execute(GrupoPesquisaDao.tableSql),
             db.execute(InstituicaoDao.tableSql),
+            db.execute(UsuarioDao.tableSql),
           };
         },
         onDowngrade: onDatabaseDowngradeDelete,

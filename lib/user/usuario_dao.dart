@@ -1,4 +1,5 @@
 import 'package:eco_pop/database/connection.dart';
+import 'package:eco_pop/login_page.dart';
 import 'package:eco_pop/user/usuario.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -24,23 +25,24 @@ class UsuarioDao {
   static const String _email = 'email';
   static const String _displayName = 'display_name';
 
-
   static const String tableSql = 'CREATE TABLE $_tabela('
       '$_id INTEGER PRIMARY KEY,'
       '$_email TEXT'
       '$_displayName TEXT'
       ')';
 
+  UsuarioDao();
+
   //salvar
   Future<int> save(Usuario usuario) async {
     final x = await userForEmail(usuario.email);
-    if (x.isNotEmpty){
+    if (x.isNotEmpty) {
       usuario = Usuario(x.first.id, usuario.email, usuario.displayName);
       update(usuario);
-    }else{
-    _db = await Connection.getDatabase();
-    Map<String, dynamic> usuarioMap = _toMap(usuario);
-    _db!.insert(_tabela, usuarioMap);
+    } else {
+      _db = await Connection.getDatabase();
+      Map<String, dynamic> usuarioMap = _toMap(usuario);
+      _db!.insert(_tabela, usuarioMap);
     }
     return 0;
   }
@@ -55,9 +57,8 @@ class UsuarioDao {
   Future<List<Usuario>> userForEmail(String email) async {
     //final Database db = await getDatabase();
     _db = await Connection.getDatabase();
-    final List<Map<String, dynamic>> resultado = await _db!.query(_tabela,
-        where: "$_email = ?",
-        whereArgs: [email]);
+    final List<Map<String, dynamic>> resultado =
+        await _db!.query(_tabela, where: "$_email = ?", whereArgs: [email]);
     List<Usuario> usuarios = _toList(resultado);
     return usuarios;
   }
